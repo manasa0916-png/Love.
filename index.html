@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Adharsh 😘🫶</title>
+
+<style>
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff9a9e,#fad0c4);
+font-family:'Segoe UI',sans-serif;
+overflow:hidden;
+}
+
+.card{
+background:white;
+padding:25px;
+width:340px;
+text-align:center;
+border-radius:25px;
+box-shadow:0 15px 40px rgba(0,0,0,0.3);
+}
+
+h1,h2{color:#ff3366;}
+.hidden{display:none;}
+
+.heart{
+font-size:50px;
+cursor:pointer;
+animation:beat 1s infinite;
+}
+
+@keyframes beat{
+0%{transform:scale(1);}
+50%{transform:scale(1.3);}
+100%{transform:scale(1);}
+}
+
+button{
+padding:8px 16px;
+border:none;
+border-radius:20px;
+margin-top:10px;
+background:#ff3366;
+color:white;
+cursor:pointer;
+}
+
+/* PHOTO */
+.love-pic{
+width:100%;
+border-radius:15px;
+margin-bottom:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* BLUR EFFECT */
+.blur{filter:blur(8px);transition:0.8s;}
+.clear{filter:blur(0);}
+
+/* SLIDER */
+.slider img{
+width:100%;
+border-radius:15px;
+margin-bottom:10px;
+}
+
+/* FLOATING HEARTS */
+.floating-heart{
+position:fixed;
+bottom:-20px;
+font-size:25px;
+animation:floatUp 4s linear infinite;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-100vh);opacity:0;}
+}
+
+#final{animation:fadeIn 1.5s ease;}
+
+@keyframes fadeIn{
+from{opacity:0;transform:scale(0.8);}
+to{opacity:1;transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<!-- PASSWORD -->
+<div id="lock">
+<h2>🔐 First Kiss..🙈</h2>
+<input id="pass" type="password" placeholder="Hint: Time ⏰"><br><br>
+<button onclick="unlock()">Unlock 💖</button>
+<p id="error"></p>
+</div>
+
+<!-- MAIN -->
+<div id="main" class="hidden">
+
+<h1>Bangarammm 🫂🫀</h1>
+
+<div id="oneHeart">
+<div class="heart" onclick="showSpeech()">❤️</div>
+<p>(Touch chey..🫣)</p>
+</div>
+
+<!-- SPEECH -->
+<div id="speech" class="hidden">
+
+<img src="photo1.jpg" id="pic" class="love-pic blur">
+
+<p id="typing"></p>
+
+<button onclick="showQuestion()">Next 💞</button>
+</div>
+
+<!-- QUESTION -->
+<div id="question" class="hidden">
+<h2>Will you be mine forever? 💖</h2>
+<button onclick="checkAnswer('yes')">YES 🌏</button>
+<button onclick="checkAnswer('no')">NO 😭</button>
+<p id="reply"></p>
+</div>
+
+<!-- FINAL -->
+<div id="final" class="hidden">
+
+<div class="slider">
+<img id="slide" src="photo1.jpg">
+</div>
+
+<div style="font-size:60px;animation:beat 1s infinite;">💍</div>
+
+<h2>Forever starts here 💖</h2>
+<p id="countdown"></p>
+
+</div>
+
+</div>
+</div>
+
+<!-- MUSIC -->
+<audio id="bgMusic" loop>
+<source src="music.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+/* NO BUTTON REPLIES */
+const noReplies=[
+"Are you sure? 🥺",
+"Think again 😏",
+"My heart says YES 💔",
+"Try YES 😘",
+"Don't break my heart 😭",
+"Over cheyyaku 😜",
+"Niku inkoka option ledhu 😌"
+];
+
+let noIndex=0;
+
+/* UNLOCK */
+function unlock(){
+let password=document.getElementById("pass").value;
+if(password==="12:54"){
+document.getElementById("lock").style.display="none";
+document.getElementById("main").style.display="block";
+document.getElementById("bgMusic").play().catch(()=>{});
+}else{
+document.getElementById("error").innerText="Wrong password 😛";
+}
+}
+
+/* SHOW SPEECH */
+function showSpeech(){
+document.getElementById("oneHeart").style.display="none";
+document.getElementById("speech").style.display="block";
+
+document.getElementById("typing").innerHTML="";
+i=0;
+typeText();
+}
+
+/* BLUR REMOVE ONLY IMAGE CLICK */
+document.addEventListener("click",(e)=>{
+if(e.target.id==="pic"){
+e.target.classList.remove("blur");
+e.target.classList.add("clear");
+}
+});
+
+/* TYPING TEXT */
+const text=`Nannaaa 💕💋
+Nv naa life loki vachaka everything changed 😘
+Nuvvu naa happiness, naa world 🌍💋
+I fall for you again & again 🫶💖
+I LOVE YOU NANNAAA...💋🦢👣🌍👩‍❤️‍💋‍👨🫀🥹`;
+
+let i=0;
+
+function typeText(){
+if(i<text.length){
+document.getElementById("typing").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typeText,40);
+}
+}
+
+function showQuestion(){
+document.getElementById("speech").style.display="none";
+document.getElementById("question").style.display="block";
+}
+
+function checkAnswer(choice){
+if(choice==="yes"){
+document.getElementById("question").style.display="none";
+document.getElementById("final").style.display="block";
+startHearts();
+startCountdown();
+startSlider();
+}else{
+document.getElementById("reply").innerText=noReplies[noIndex];
+noIndex=(noIndex+1)%noReplies.length;
+}
+}
+
+/* FLOATING HEARTS */
+function startHearts(){
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="floating-heart";
+const icons=["❤️","😘","✨","💖"];
+heart.innerText=icons[Math.floor(Math.random()*icons.length)];
+heart.style.left=Math.random()*100+"vw";
+heart.style.fontSize=(20+Math.random()*20)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),4000);
+},300);
+}
+
+/* COUNTDOWN */
+function startCountdown(){
+const startDate=new Date("2024-09-13T00:00:00").getTime();
+setInterval(()=>{
+let now=new Date().getTime();
+let diff=now-startDate;
+
+let d=Math.floor(diff/(1000*60*60*24));
+let h=Math.floor((diff/(1000*60*60))%24);
+let m=Math.floor((diff/(1000*60))%60);
+let s=Math.floor((diff/1000)%60);
+
+document.getElementById("countdown").innerHTML=
+`💖 Together since forever 💖<br>
+${d} days ${h} hrs ${m} mins ${s} secs`;
+},1000);
+}
+
+/* PHOTO SLIDER */
+const photos=["photo1.jpg","photo2.jpg","photo3.jpg"];
+let index=0;
+
+function startSlider(){
+setInterval(()=>{
+index=(index+1)%photos.length;
+document.getElementById("slide").src=photos[index];
+},2500);
+}
+
+</script>
+
+</body>
+</html>
